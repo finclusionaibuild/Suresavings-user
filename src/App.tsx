@@ -85,7 +85,7 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Suspense fallback={<div className=\"p-6\">Loading...</div>}><UserLanding /></Suspense>} />
+            <Route path="/" element={<Suspense fallback={<div className="p-6">Loading...</div>}><UserLanding /></Suspense>} />
             <Route 
               path="/role/super-admin" 
               element={
