@@ -133,7 +133,7 @@ function App() {
             <Route
               path="/savings"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredKYCTier={1} featureName="savings plans">
                   <Layout>
                     <SavingsPlans />
                   </Layout>
@@ -143,7 +143,7 @@ function App() {
             <Route
               path="/investments"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredKYCTier={2} featureName="investment opportunities">
                   <Layout>
                     <InvestmentPage />
                   </Layout>
@@ -599,7 +599,7 @@ function App() {
             <Route
               path="/cards"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredKYCTier={3} featureName="virtual cards">
                   <Layout>
                     <VirtualCards />
                   </Layout>

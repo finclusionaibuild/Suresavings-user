@@ -1,18 +1,25 @@
 import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import AccessRestrictionGate from './onboarding/AccessRestrictionGate';
 import { Box, CircularProgress } from '@mui/material';
 
 interface ProtectedRouteProps {
   children: ReactNode;
   requireAdmin?: boolean;
   requireSuperAdmin?: boolean;
+  requiredVerifications?: string[];
+  requiredKYCTier?: number;
+  featureName?: string;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
   children, 
   requireAdmin = false, 
-  requireSuperAdmin = false 
+  requireSuperAdmin = false,
+  requiredVerifications = ['email'],
+  requiredKYCTier = 1,
+  featureName = 'this feature'
 }) => {
   const { user, isLoading } = useAuth();
 
@@ -43,7 +50,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/dashboard" replace />;
   }
 
-  return <>{children}</>;
+  return (
+    <AccessRestrictionGate
+      user={user}
+      requiredVerifications={requiredVerifications}
+      requiredKYCTier={requiredKYCTier}
+      featureName={featureName}
+    >
+      {children}
+    </AccessRestrictionGate>
+  );
 };
 
 export default ProtectedRoute;

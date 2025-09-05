@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Eye, EyeOff, Mail, Lock, User, Phone, AlertCircle, CheckCircle } from 'lucide-react';
+import EnhancedRegistration from '../components/onboarding/EnhancedRegistration';
 
 const RegisterPage: React.FC = () => {
+  const [useEnhancedFlow, setUseEnhancedFlow] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,6 +21,28 @@ const RegisterPage: React.FC = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  const handleEnhancedRegistration = async (userData: any) => {
+    try {
+      const success = await register(userData);
+      if (success) {
+        navigate('/dashboard');
+      } else {
+        setError('Registration failed. Please try again.');
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+    }
+  };
+
+  if (useEnhancedFlow) {
+    return (
+      <EnhancedRegistration 
+        onComplete={handleEnhancedRegistration}
+        onBack={() => setUseEnhancedFlow(false)}
+      />
+    );
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -112,6 +136,44 @@ const RegisterPage: React.FC = () => {
           <p className="text-gray-600">Start your savings journey today</p>
         </div>
 
+        {/* Registration Options */}
+        <div className="bg-white rounded-xl shadow-xl p-6 mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Choose Registration Type</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button
+              onClick={() => setUseEnhancedFlow(true)}
+              className="p-6 border-2 border-primary-500 bg-primary-50 rounded-lg text-left hover:bg-primary-100 transition-colors"
+            >
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="bg-primary-500 p-2 rounded-lg">
+                  <User className="h-5 w-5 text-white" />
+                </div>
+                <h4 className="font-semibold text-primary-900">Complete Registration</h4>
+              </div>
+              <p className="text-sm text-primary-800 mb-3">
+                Full onboarding with address verification and next-of-kin information
+              </p>
+              <div className="text-xs text-primary-700">
+                ✓ Faster KYC approval ✓ Higher limits ✓ Better security
+              </div>
+            </button>
+            
+            <div className="p-6 border-2 border-gray-200 rounded-lg text-left">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="bg-gray-500 p-2 rounded-lg">
+                  <User className="h-5 w-5 text-white" />
+                </div>
+                <h4 className="font-semibold text-gray-900">Quick Registration</h4>
+              </div>
+              <p className="text-sm text-gray-600 mb-3">
+                Basic registration with essential information only
+              </p>
+              <div className="text-xs text-gray-500">
+                Basic features • Limited access • Manual verification required
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="bg-white rounded-xl shadow-xl p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
