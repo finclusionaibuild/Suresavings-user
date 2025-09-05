@@ -1,0 +1,1 @@
+import{j as o}from"./index-B0NaORIE.js";import{R as t}from"./RoleLanding-CHh-faEE.js";const r=()=>o.jsx(t,{title:"Agent",description:"Field operations, onboarding, and customer support.",accentColorClass:"bg-gradient-to-r from-emerald-600 to-green-600",loginRoleParam:"agent"});export{r as default};

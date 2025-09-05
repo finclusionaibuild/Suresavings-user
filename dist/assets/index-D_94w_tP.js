@@ -1,0 +1,1 @@
+import{j as a}from"./index-B0NaORIE.js";import{R as o}from"./RoleLanding-CHh-faEE.js";const t=()=>a.jsx(o,{title:"Admin",description:"Manage users, savings, compliance, and operations.",accentColorClass:"bg-gradient-to-r from-blue-600 to-teal-600",loginRoleParam:"admin"});export{t as default};

@@ -1,0 +1,1 @@
+import{j as s}from"./index-B0NaORIE.js";import{R as r}from"./RoleLanding-CHh-faEE.js";const t=()=>s.jsx(r,{title:"User",description:"Access your savings, investments, and rewards.",accentColorClass:"bg-gradient-to-r from-cyan-600 to-blue-600",loginRoleParam:"user"});export{t as default};

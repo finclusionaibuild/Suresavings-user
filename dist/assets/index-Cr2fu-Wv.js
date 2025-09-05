@@ -1,0 +1,1 @@
+import{j as o}from"./index-B0NaORIE.js";import{R as n}from"./RoleLanding-CHh-faEE.js";const e=()=>o.jsx(n,{title:"Super Admin",description:"System-wide management and platform control.",accentColorClass:"bg-gradient-to-r from-indigo-600 to-purple-600",loginRoleParam:"superadmin"});export{e as default};
