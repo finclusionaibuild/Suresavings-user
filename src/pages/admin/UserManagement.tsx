@@ -30,6 +30,7 @@ const UserManagement: React.FC = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [showUserModal, setShowUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const users = [
     {
@@ -212,13 +213,34 @@ const UserManagement: React.FC = () => {
   });
 
   const handleUserAction = (action: string, userId: string) => {
-    console.log(`${action} user:`, userId);
-    // Implement user actions
+    try {
+      const storageKey = 'userManagementActions';
+      const existingRaw = localStorage.getItem(storageKey);
+      const existing = existingRaw ? JSON.parse(existingRaw) : [];
+      const entry = { action, userId, timestamp: new Date().toISOString() };
+      localStorage.setItem(storageKey, JSON.stringify([entry, ...existing].slice(0, 100)));
+      setToastMessage(`${action.charAt(0).toUpperCase() + action.slice(1)} action queued for user ${userId}`);
+      setTimeout(() => setToastMessage(null), 2500);
+    } catch (e) {
+      setToastMessage('Failed to record action.');
+      setTimeout(() => setToastMessage(null), 2500);
+    }
   };
 
   const handleBulkAction = (action: string) => {
-    console.log(`Bulk ${action}:`, selectedUsers);
-    // Implement bulk actions
+    try {
+      const storageKey = 'userManagementBulkActions';
+      const existingRaw = localStorage.getItem(storageKey);
+      const existing = existingRaw ? JSON.parse(existingRaw) : [];
+      const entry = { action, userIds: selectedUsers, timestamp: new Date().toISOString() };
+      localStorage.setItem(storageKey, JSON.stringify([entry, ...existing].slice(0, 100)));
+      setToastMessage(`Bulk ${action} queued for ${selectedUsers.length} users`);
+      setTimeout(() => setToastMessage(null), 2500);
+      setSelectedUsers([]);
+    } catch (e) {
+      setToastMessage('Failed to perform bulk action.');
+      setTimeout(() => setToastMessage(null), 2500);
+    }
   };
 
   const totalUsers = users.length;
@@ -229,6 +251,11 @@ const UserManagement: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {toastMessage && (
+          <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+            {toastMessage}
+          </div>
+        )}
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-3 mb-4">
@@ -606,7 +633,7 @@ const UserManagement: React.FC = () => {
                     </div>
                     <div className="bg-purple-50 p-4 rounded-lg">
                       <div className="flex items-center space-x-2 mb-2">
-                        <BarChart className="h-4 w-4 text-purple-600" />
+                        <TrendingUp className="h-4 w-4 text-purple-600" />
                         <span className="text-sm font-medium text-purple-800">Transactions</span>
                       </div>
                       <p className="text-xl font-bold text-purple-900">{selectedUser.transactionCount}</p>

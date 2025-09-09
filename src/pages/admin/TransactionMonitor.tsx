@@ -28,6 +28,7 @@ const TransactionMonitor: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('today');
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const transactions = [
     {
@@ -254,8 +255,18 @@ const TransactionMonitor: React.FC = () => {
   });
 
   const handleTransactionAction = (action: string, transactionId: string) => {
-    console.log(`${action} transaction:`, transactionId);
-    // Implement transaction actions
+    try {
+      const storageKey = 'transactionActions';
+      const existingRaw = localStorage.getItem(storageKey);
+      const existing = existingRaw ? JSON.parse(existingRaw) : [];
+      const entry = { action, transactionId, timestamp: new Date().toISOString() };
+      localStorage.setItem(storageKey, JSON.stringify([entry, ...existing].slice(0, 200)));
+      setToastMessage(`${action.charAt(0).toUpperCase() + action.slice(1)} action queued for ${transactionId}`);
+      setTimeout(() => setToastMessage(null), 2500);
+    } catch (e) {
+      setToastMessage('Failed to record transaction action.');
+      setTimeout(() => setToastMessage(null), 2500);
+    }
   };
 
   // Calculate stats
@@ -268,6 +279,11 @@ const TransactionMonitor: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {toastMessage && (
+          <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+            {toastMessage}
+          </div>
+        )}
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-3 mb-4">
