@@ -546,13 +546,67 @@ const KYCVerificationFlow: React.FC<KYCVerificationFlowProps> = ({
           </div>
         );
 
-      default:
+      case 'address-selection':
         return (
-          <div className="text-center">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Step in Progress</h3>
-            <p className="text-gray-600">This step is being implemented...</p>
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Confirm Your Address</h3>
+            <p className="text-gray-600 mb-6">Select the address extracted from your document or enter it manually.</p>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Suggested Address</label>
+                <select
+                  value={formData.selectedAddress}
+                  onChange={(e) => setFormData(prev => ({ ...prev, selectedAddress: e.target.value, address: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                >
+                  <option value="">Select an address</option>
+                  <option value="12 Adeola Odeku St, Victoria Island, Lagos">12 Adeola Odeku St, Victoria Island, Lagos</option>
+                  <option value="5 Aminu Kano Cres, Wuse 2, Abuja">5 Aminu Kano Cres, Wuse 2, Abuja</option>
+                  <option value="42 Sani Abacha Rd, GRA, Port Harcourt">42 Sani Abacha Rd, GRA, Port Harcourt</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Or Enter Manually</label>
+                <input
+                  type="text"
+                  value={formData.address}
+                  onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
+                  placeholder="House number, street, city"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+              </div>
+            </div>
           </div>
         );
+
+      case 'social-attestation':
+        return (
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Social Attestation</h3>
+            <p className="text-gray-600 mb-6">Provide contacts who can attest to your address. We may reach out to confirm.</p>
+            <div className="space-y-4">
+              {formData.socialAttesters.map((attester, index) => (
+                <div key={index}>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Attester {index + 1} (phone or email)</label>
+                  <input
+                    type="text"
+                    value={attester}
+                    onChange={(e) => {
+                      const next = [...formData.socialAttesters];
+                      next[index] = e.target.value;
+                      setFormData(prev => ({ ...prev, socialAttesters: next }));
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="e.g. +2348012345678 or email@example.com"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
     }
   };
 

@@ -102,6 +102,9 @@ const AccountSettingsManagement: React.FC = () => {
     }
   });
 
+  const [lastSavedCategory, setLastSavedCategory] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
   const tabs = [
     { id: 'general', label: 'General Settings', icon: Settings },
     { id: 'security', label: 'Security & Privacy', icon: Shield },
@@ -159,8 +162,19 @@ const AccountSettingsManagement: React.FC = () => {
   };
 
   const handleSaveSettings = (category: string) => {
-    console.log(`Saving ${category} settings:`, settings[category as keyof typeof settings]);
-    // Implement save logic
+    try {
+      const existingRaw = localStorage.getItem('accountSettings');
+      const existing = existingRaw ? JSON.parse(existingRaw) : {};
+      const next = { ...existing, [category]: settings[category as keyof typeof settings] };
+      localStorage.setItem('accountSettings', JSON.stringify(next));
+      setLastSavedCategory(category);
+      setSaveError(null);
+      setTimeout(() => setLastSavedCategory(null), 2500);
+    } catch (error) {
+      console.error('Failed to save settings', error);
+      setSaveError('Failed to save settings. Please try again.');
+      setTimeout(() => setSaveError(null), 3500);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -192,6 +206,16 @@ const AccountSettingsManagement: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {lastSavedCategory && (
+          <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+            Saved {lastSavedCategory} settings successfully.
+          </div>
+        )}
+        {saveError && (
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            {saveError}
+          </div>
+        )}
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-3 mb-4">
