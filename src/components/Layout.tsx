@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import SuperAdminSidebar from '../components/sidebars/SuperAdminSidebar';
-import AdminSidebar from '../components/sidebars/AdminSidebar';
-import AgentSidebar from '../components/sidebars/AgentSidebar';
 import UserSidebar from '../components/sidebars/UserSidebar';
 import { Box, useTheme } from '@mui/material';
 
@@ -11,25 +7,10 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const theme = useTheme();
 
-  const renderSidebar = () => {
-    if (!user) {
-      return null;
-    }
-    
-    if (user.isSuperAdmin) {
-      return <SuperAdminSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />;
-    } else if (user.isAdmin) {
-      return <AdminSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />;
-    } else if (user.isAgent) {
-      return <AgentSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />;
-    } else {
-      return <UserSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />;
-    }
-  };
+  const renderSidebar = () => <UserSidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />;
 
   return (
     <Box sx={{ display: 'flex' }}>
