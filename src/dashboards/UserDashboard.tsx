@@ -102,10 +102,10 @@ const UserDashboard: React.FC = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 3 }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container maxWidth="xl">
-        {/* Welcome Header */}
-        <Box sx={{ mb: 4 }}>
+        {/* Welcome Header Section */}
+        <Box sx={{ mb: 6 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <Box sx={{ position: 'relative' }}>
               <img 
@@ -149,292 +149,348 @@ const UserDashboard: React.FC = () => {
           </Box>
         </Box>
 
-        {/* Balance Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} md={4}>
-            <Card sx={{ 
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-              color: 'white',
-              borderRadius: 4,
-              boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.3)',
-            }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <img src="/image.png" alt="Savings Mascot" style={{ width: 20, height: 20 }} />
+        {/* Financial Overview Section */}
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h5" fontWeight="semibold" sx={{ mb: 3, color: 'text.primary' }}>
+            Financial Overview
+          </Typography>
+          <Grid container spacing={3} className="balance-cards">
+            <Grid item xs={12} md={4}>
+              <Card sx={{ 
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                color: 'white',
+                borderRadius: 4,
+                boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.3)',
+                height: '100%'
+              }}>
+                <CardContent>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <img src="/image.png" alt="Savings Mascot" style={{ width: 20, height: 20 }} />
+                      <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                        Total Savings
+                      </Typography>
+                    </Box>
+                    <IconButton 
+                      onClick={() => setShowBalances(!showBalances)}
+                      sx={{ color: 'white' }}
+                      size="small"
+                    >
+                      {showBalances ? <VisibilityOff size={16} /> : <Visibility size={16} />}
+                    </IconButton>
+                  </Box>
+                  <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
+                    {showBalances ? formatCurrency(user?.totalSavings || 0) : '****'}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <ArrowUpward size={16} />
+                    <Typography variant="body2">+12.5% this month</Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <Card sx={{ 
+                background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                color: 'white',
+                borderRadius: 4,
+                boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.3)',
+                height: '100%'
+              }}>
+                <CardContent>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                    <TrendingUp size={20} />
                     <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                      Total Savings
+                      Investments
                     </Typography>
                   </Box>
-                  <IconButton 
-                    onClick={() => setShowBalances(!showBalances)}
-                    sx={{ color: 'white' }}
-                    size="small"
-                  >
-                    {showBalances ? <VisibilityOff size={16} /> : <Visibility size={16} />}
-                  </IconButton>
-                </Box>
-                <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
-                  {showBalances ? formatCurrency(user?.totalSavings || 0) : '****'}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <ArrowUpward size={16} />
-                  <Typography variant="body2">+12.5% this month</Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Card sx={{ 
-              background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-              color: 'white',
-              borderRadius: 4,
-              boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.3)',
-            }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                  <TrendingUp size={20} />
-                  <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                    Investments
+                  <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
+                    {showBalances ? formatCurrency(user?.totalInvestments || 0) : '****'}
                   </Typography>
-                </Box>
-                <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
-                  {showBalances ? formatCurrency(user?.totalInvestments || 0) : '****'}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <ArrowUpward size={16} />
-                  <Typography variant="body2">+8.2% this month</Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <ArrowUpward size={16} />
+                    <Typography variant="body2">+8.2% this month</Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
 
-          <Grid item xs={12} md={4}>
-            <Card sx={{ 
-              background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-              color: 'white',
-              borderRadius: 4,
-              boxShadow: '0 10px 25px -5px rgba(139, 92, 246, 0.3)',
-            }}>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                  <EmojiEvents size={20} />
-                  <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                    Reward Points
+            <Grid item xs={12} md={4}>
+              <Card sx={{ 
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                color: 'white',
+                borderRadius: 4,
+                boxShadow: '0 10px 25px -5px rgba(139, 92, 246, 0.3)',
+                height: '100%'
+              }}>
+                <CardContent>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                    <EmojiEvents size={20} />
+                    <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                      Reward Points
+                    </Typography>
+                  </Box>
+                  <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
+                    {user?.rewardPoints?.toLocaleString() || 0}
                   </Typography>
-                </Box>
-                <Typography variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
-                  {user?.rewardPoints?.toLocaleString() || 0}
-                </Typography>
-                <Typography variant="body2">
-                  Redeem for savings bonus
-                </Typography>
-              </CardContent>
-            </Card>
+                  <Typography variant="body2">
+                    Redeem for savings bonus
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
 
-        {/* Quick Actions */}
-        <Card sx={{ mb: 4, borderRadius: 4 }}>
-          <CardContent sx={{ p: 4 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-              <img src="/image.png" alt="Actions Mascot" style={{ width: 24, height: 24 }} />
-              <Typography variant="h5" fontWeight="semibold">
-                Quick Actions
-              </Typography>
-            </Box>
-            <Grid container spacing={3}>
-              {quickActions.map((action, index) => {
-                const Icon = action.icon;
-                return (
-                  <Grid item xs={6} md={3} key={index}>
-                    <Paper
-                      sx={{
-                        p: 3,
-                        textAlign: 'center',
-                        cursor: 'pointer',
-                        borderRadius: 3,
-                        transition: 'all 0.3s ease',
-                        border: '1px solid',
-                        borderColor: 'grey.200',
-                        '&:hover': {
-                          transform: 'translateY(-4px)',
-                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                          borderColor: 'primary.main',
-                        },
-                      }}
-                    >
-                      <Avatar
+        {/* Quick Actions Section */}
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h5" fontWeight="semibold" sx={{ mb: 3, color: 'text.primary' }}>
+            Quick Actions
+          </Typography>
+          <Card sx={{ borderRadius: 4, boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} className="quick-actions">
+            <CardContent sx={{ p: 4 }}>
+              <Grid container spacing={3}>
+                {quickActions.map((action, index) => {
+                  const Icon = action.icon;
+                  return (
+                    <Grid item xs={6} md={3} key={index}>
+                      <Paper
                         sx={{
-                          background: action.gradient,
-                          width: 64,
-                          height: 64,
-                          mx: 'auto',
-                          mb: 2,
-                          boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15)',
+                          p: 3,
+                          textAlign: 'center',
+                          cursor: 'pointer',
+                          borderRadius: 3,
+                          transition: 'all 0.3s ease',
+                          border: '1px solid',
+                          borderColor: 'grey.200',
+                          height: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          '&:hover': {
+                            transform: 'translateY(-4px)',
+                            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                            borderColor: 'primary.main',
+                          },
                         }}
                       >
-                        <Icon size={28} />
-                      </Avatar>
-                      <Typography variant="body2" fontWeight="medium">
-                        {action.label}
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </CardContent>
-        </Card>
-
-        <Grid container spacing={3}>
-          {/* Savings Goals */}
-          <Grid item xs={12} lg={6}>
-            <Card sx={{ height: '100%', borderRadius: 4 }}>
-              <CardContent sx={{ p: 4 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <img src="/image.png" alt="Goals Mascot" style={{ width: 24, height: 24 }} />
-                    <Typography variant="h5" fontWeight="semibold">
-                      Savings Goals
-                    </Typography>
-                  </Box>
-                  <Button size="small" color="primary" sx={{ borderRadius: 2 }}>
-                    View All
-                  </Button>
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {savingsGoals.map((goal) => (
-                    <Paper key={goal.id} variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                        <Typography variant="body1" fontWeight="medium">
-                          {goal.name}
-                        </Typography>
-                        <Chip 
-                          label={formatDate(goal.deadline)}
-                          size="small"
-                          variant="outlined"
-                          sx={{ borderRadius: 2 }}
-                        />
-                      </Box>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                        <Typography variant="body2" color="text.secondary">
-                          {formatCurrency(goal.current)} of {formatCurrency(goal.target)}
-                        </Typography>
-                        <Typography variant="body2" fontWeight="medium" color="primary.main">
-                          {Math.round(getProgressPercentage(goal.current, goal.target))}%
-                        </Typography>
-                      </Box>
-                      <LinearProgress
-                        variant="determinate"
-                        value={getProgressPercentage(goal.current, goal.target)}
-                        sx={{ 
-                          height: 10, 
-                          borderRadius: 5,
-                          bgcolor: 'grey.200',
-                          '& .MuiLinearProgress-bar': {
-                            borderRadius: 5,
-                            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                          }
-                        }}
-                      />
-                    </Paper>
-                  ))}
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Recent Transactions */}
-          <Grid item xs={12} lg={6}>
-            <Card sx={{ height: '100%', borderRadius: 4 }}>
-              <CardContent sx={{ p: 4 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <img src="/image.png" alt="Transactions Mascot" style={{ width: 24, height: 24 }} />
-                    <Typography variant="h5" fontWeight="semibold">
-                      Recent Transactions
-                    </Typography>
-                  </Box>
-                  <Button size="small" color="primary" sx={{ borderRadius: 2 }}>
-                    View All
-                  </Button>
-                </Box>
-                <List sx={{ p: 0 }}>
-                  {recentTransactions.map((transaction) => (
-                    <ListItem key={transaction.id} sx={{ px: 0, py: 2, borderBottom: '1px solid', borderColor: 'grey.100' }}>
-                      <ListItemIcon>
                         <Avatar
                           sx={{
-                            bgcolor: transaction.type === 'credit' ? 'success.light' : 'error.light',
-                            color: transaction.type === 'credit' ? 'success.dark' : 'error.dark',
-                            width: 44,
-                            height: 44,
+                            background: action.gradient,
+                            width: 64,
+                            height: 64,
+                            mx: 'auto',
+                            mb: 2,
+                            boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15)',
                           }}
                         >
-                          {transaction.type === 'credit' ? <ArrowDownward size={20} /> : <ArrowUpward size={20} />}
+                          <Icon size={28} />
                         </Avatar>
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          <Typography variant="body1" fontWeight="medium">
-                            {transaction.description}
-                          </Typography>
-                        }
-                        secondary={
-                          <Typography variant="body2" color="text.secondary">
-                            {formatDate(transaction.date)}
-                          </Typography>
-                        }
-                      />
-                      <Box sx={{ textAlign: 'right' }}>
-                        <Typography
-                          variant="body1"
-                          fontWeight="semibold"
-                          color={transaction.type === 'credit' ? 'success.main' : 'error.main'}
-                        >
-                          {transaction.type === 'credit' ? '+' : '-'}{formatCurrency(transaction.amount)}
+                        <Typography variant="body2" fontWeight="medium">
+                          {action.label}
                         </Typography>
-                        <Chip
-                          label={transaction.status}
-                          size="small"
-                          color="success"
-                          variant="outlined"
-                          sx={{ mt: 0.5, borderRadius: 2 }}
-                        />
-                      </Box>
-                    </ListItem>
-                  ))}
-                </List>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+                      </Paper>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Box>
 
-        {/* Performance Chart */}
-        <Card sx={{ mt: 4, borderRadius: 4 }}>
-          <CardContent sx={{ p: 4 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-              <img src="/image.png" alt="Performance Mascot" style={{ width: 24, height: 24 }} />
-              <Typography variant="h5" fontWeight="semibold">
-                Savings Performance
-              </Typography>
-            </Box>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ height: 300 }}>
-                  <LineChart data={savingsChartData} height={300} />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ height: 300 }}>
-                  <BarChart data={transactionChartData} height={300} />
-                </Box>
-              </Grid>
+        {/* Main Content Section */}
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h5" fontWeight="semibold" sx={{ mb: 3, color: 'text.primary' }}>
+            Your Progress
+          </Typography>
+          <Grid container spacing={4}>
+            {/* Savings Goals */}
+            <Grid item xs={12} lg={6}>
+              <Card sx={{ 
+                height: '100%', 
+                borderRadius: 4,
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              }} className="savings-goals">
+                <CardContent sx={{ p: 4 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <img src="/image.png" alt="Goals Mascot" style={{ width: 24, height: 24 }} />
+                      <Typography variant="h5" fontWeight="semibold">
+                        Savings Goals
+                      </Typography>
+                    </Box>
+                    <Button size="small" color="primary" sx={{ borderRadius: 2 }}>
+                      View All
+                    </Button>
+                  </Box>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                    {savingsGoals.map((goal) => (
+                      <Paper key={goal.id} variant="outlined" sx={{ 
+                        p: 3, 
+                        borderRadius: 3,
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                          transform: 'translateY(-2px)'
+                        }
+                      }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                          <Typography variant="body1" fontWeight="medium">
+                            {goal.name}
+                          </Typography>
+                          <Chip 
+                            label={formatDate(goal.deadline)}
+                            size="small"
+                            variant="outlined"
+                            sx={{ borderRadius: 2 }}
+                          />
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                          <Typography variant="body2" color="text.secondary">
+                            {formatCurrency(goal.current)} of {formatCurrency(goal.target)}
+                          </Typography>
+                          <Typography variant="body2" fontWeight="medium" color="primary.main">
+                            {Math.round(getProgressPercentage(goal.current, goal.target))}%
+                          </Typography>
+                        </Box>
+                        <LinearProgress
+                          variant="determinate"
+                          value={getProgressPercentage(goal.current, goal.target)}
+                          sx={{ 
+                            height: 10, 
+                            borderRadius: 5,
+                            bgcolor: 'grey.200',
+                            '& .MuiLinearProgress-bar': {
+                              borderRadius: 5,
+                              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
+                            }
+                          }}
+                        />
+                      </Paper>
+                    ))}
+                  </Box>
+                </CardContent>
+              </Card>
             </Grid>
-          </CardContent>
-        </Card>
+
+            {/* Recent Transactions */}
+            <Grid item xs={12} lg={6}>
+              <Card sx={{ 
+                height: '100%', 
+                borderRadius: 4,
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              }} className="recent-transactions">
+                <CardContent sx={{ p: 4 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <img src="/image.png" alt="Transactions Mascot" style={{ width: 24, height: 24 }} />
+                      <Typography variant="h5" fontWeight="semibold">
+                        Recent Transactions
+                      </Typography>
+                    </Box>
+                    <Button size="small" color="primary" sx={{ borderRadius: 2 }}>
+                      View All
+                    </Button>
+                  </Box>
+                  <List sx={{ p: 0, '& .MuiListItem-root': { borderRadius: 2 } }}>
+                    {recentTransactions.map((transaction) => (
+                      <ListItem key={transaction.id} sx={{ 
+                        px: 0, 
+                        py: 2, 
+                        borderBottom: '1px solid', 
+                        borderColor: 'grey.100',
+                        '&:hover': { bgcolor: 'grey.50' },
+                        transition: 'background-color 0.2s ease'
+                      }}>
+                        <ListItemIcon>
+                          <Avatar
+                            sx={{
+                              bgcolor: transaction.type === 'credit' ? 'success.light' : 'error.light',
+                              color: transaction.type === 'credit' ? 'success.dark' : 'error.dark',
+                              width: 44,
+                              height: 44,
+                            }}
+                          >
+                            {transaction.type === 'credit' ? <ArrowDownward size={20} /> : <ArrowUpward size={20} />}
+                          </Avatar>
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Typography variant="body1" fontWeight="medium">
+                              {transaction.description}
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography variant="body2" color="text.secondary">
+                              {formatDate(transaction.date)}
+                            </Typography>
+                          }
+                        />
+                        <Box sx={{ textAlign: 'right' }}>
+                          <Typography
+                            variant="body1"
+                            fontWeight="semibold"
+                            color={transaction.type === 'credit' ? 'success.main' : 'error.main'}
+                          >
+                            {transaction.type === 'credit' ? '+' : '-'}{formatCurrency(transaction.amount)}
+                          </Typography>
+                          <Chip
+                            label={transaction.status}
+                            size="small"
+                            color="success"
+                            variant="outlined"
+                            sx={{ mt: 0.5, borderRadius: 2 }}
+                          />
+                        </Box>
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
+
+        {/* Analytics Section */}
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h5" fontWeight="semibold" sx={{ mb: 3, color: 'text.primary' }}>
+            Performance Analytics
+          </Typography>
+          <Card sx={{ borderRadius: 4, boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+            <CardContent sx={{ p: 4 }}>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ mb: 2 }}>
+                    <Typography variant="h6" fontWeight="medium" color="text.primary">
+                      Savings Growth Trend
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Your savings growth over the last 6 months
+                    </Typography>
+                  </Box>
+                  <Box sx={{ height: 300 }}>
+                    <LineChart data={savingsChartData} height={300} />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ mb: 2 }}>
+                    <Typography variant="h6" fontWeight="medium" color="text.primary">
+                      Transaction Activity
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Daily transaction volume over the last 2 weeks
+                    </Typography>
+                  </Box>
+                  <Box sx={{ height: 300 }}>
+                    <BarChart data={transactionChartData} height={300} />
+                  </Box>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Box>
       </Container>
     </Box>
   );
